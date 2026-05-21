@@ -1,14 +1,51 @@
 from django.db import models
 
-class Product(models.Model):
+# BaseModel import
+from core.models import BaseModel
 
-    name = models.CharField(max_length=200)
+# Branch model import
+from core.models import Branch
 
-    quantity = models.IntegerField()
 
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+# =====================================================
+# Product Model
+# =====================================================
+class Product(BaseModel):
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    # Product name
+    name = models.CharField(
+        max_length=255
+    )
+
+    # Product price
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    # =================================================
+    # Branch Isolation Field
+    # -------------------------------------------------
+    # কোন branch এর product
+    # =================================================
+    # =================================================
+# Branch Isolation Field
+# -------------------------------------------------
+# Temporarily NULL allowed for safe migration
+# =================================================
+    branch = models.ForeignKey(
+
+    Branch,
+
+    on_delete=models.CASCADE,
+
+    related_name='products',
+
+    # Existing old data এর জন্য
+    null=True,
+    blank=True
+)
 
     def __str__(self):
+
         return self.name

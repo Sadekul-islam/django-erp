@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     'core',
     'inventory',
+    'accounts',
+    'permissionsystem',
+    
 ]
 
 MIDDLEWARE = [
@@ -129,3 +132,6 @@ STATICFILES_DIRS = [
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+# Custom User Model
+# Django কে বলছি default user এর বদলে accounts.User ব্যবহার করতে
+AUTH_USER_MODEL = 'accounts.User'
