@@ -1,70 +1,109 @@
 # =====================================================
-# Role Permission Checker Utilities
+# Role Permission Import
 # =====================================================
 
 from .models import RolePermission
 
 
+
 # =====================================================
-# Check user permission
+# Check User Module Permission
 # -----------------------------------------------------
-# Example:
-#
-# can_user_access_module(
-#     request.user,
-#     'finance',
-#     'view'
-# )
+# User কোন module access পাবে কিনা check করবে
 # =====================================================
+
 def can_user_access_module(
 
     user,
     module_code,
-    action
+    action='view'
+
 ):
 
     # =================================================
-    # Super admin can access everything
+    # Super Admin সব access পাবে
     # =================================================
-    if user.role == 'super_admin':
+
+    if user.is_superuser:
 
         return True
 
-    try:
 
-        # =================================================
-        # Role permission lookup
-        # =================================================
-        permission = RolePermission.objects.get(
 
-            role=user.role,
+    # =================================================
+    # User role collect
+    # =================================================
 
-            module__code=module_code
-        )
+    role = user.role
 
-        # =================================================
-        # Action checking
-        # =================================================
-        if action == 'view':
 
-            return permission.can_view
 
-        elif action == 'create':
+    # =================================================
+    # Role permission find
+    # =================================================
 
-            return permission.can_create
+    permission = RolePermission.objects.filter(
 
-        elif action == 'update':
+        role=role,
 
-            return permission.can_update
+        module__code=module_code
 
-        elif action == 'delete':
+    ).first()
 
-            return permission.can_delete
 
-        # Invalid action
+
+    # =================================================
+    # Permission না থাকলে deny
+    # =================================================
+
+    if not permission:
+
         return False
 
-    except RolePermission.DoesNotExist:
 
-        # Permission না থাকলে deny
-        return False
+
+    # =================================================
+    # View Permission
+    # =================================================
+
+    if action == 'view':
+
+        return permission.can_view
+
+
+
+    # =================================================
+    # Create Permission
+    # =================================================
+
+    elif action == 'create':
+
+        return permission.can_create
+
+
+
+    # =================================================
+    # Update Permission
+    # =================================================
+
+    elif action == 'update':
+
+        return permission.can_update
+
+
+
+    # =================================================
+    # Delete Permission
+    # =================================================
+
+    elif action == 'delete':
+
+        return permission.can_delete
+
+
+
+    # =================================================
+    # Unknown action হলে deny
+    # =================================================
+
+    return False

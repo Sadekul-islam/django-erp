@@ -21,35 +21,123 @@
             <h3>Django ERP</h3>
 
             <hr>
+            <!-- ===================================================== -->
+<!-- Sidebar Menu -->
+<!-- ===================================================== -->
 
-            <ul class="nav flex-column">
+<ul class="nav flex-column">
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        Dashboard
-                    </a>
-                </li>
+    <!-- ================================================= -->
+    <!-- Dashboard Menu -->
+    <!-- সবাই দেখতে পারবে -->
+    <!-- ================================================= -->
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        Inventory
-                    </a>
-                </li>
+    <li class="nav-item">
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        Sales
-                    </a>
-                </li>
+        <a class="nav-link text-white" href="/">
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        Purchase
-                    </a>
-                </li>
+            Dashboard
 
-            </ul>
+        </a>
 
+    </li>
+
+
+
+    <!-- ================================================= -->
+    <!-- Inventory Menu -->
+    <!-- শুধু superuser অথবা teacher role -->
+    <!-- ================================================= -->
+
+    {% if request.user.is_superuser or request.user.role == 'teacher' %}
+
+    <li class="nav-item">
+
+        <a class="nav-link text-white" href="/products/">
+
+            Inventory
+
+        </a>
+
+    </li>
+
+    {% endif %}
+
+
+
+    <!-- ================================================= -->
+    <!-- Sales Menu -->
+    <!-- শুধু superuser -->
+    <!-- ================================================= -->
+
+    {% if request.user.is_superuser %}
+
+    <li class="nav-item">
+
+        <a class="nav-link text-white" href="#">
+
+            Sales
+
+        </a>
+
+    </li>
+
+    {% endif %}
+
+
+
+    <!-- ================================================= -->
+    <!-- Purchase Menu -->
+    <!-- শুধু superuser -->
+    <!-- ================================================= -->
+
+    {% if request.user.is_superuser %}
+
+    <li class="nav-item">
+
+        <a class="nav-link text-white" href="#">
+
+            Purchase
+
+        </a>
+
+    </li>
+
+    {% endif %}
+
+</ul>
+
+
+
+<!-- ===================================================== -->
+<!-- Logout Form -->
+<!-- POST method ব্যবহার করছি -->
+<!-- কারণ Django secure logout GET allow করে না -->
+<!-- ===================================================== -->
+
+<form method="post" action="/logout/">
+
+    <!-- ================================================ -->
+    <!-- CSRF Security Token -->
+    <!-- Django security protection -->
+    <!-- ================================================ -->
+
+    {% csrf_token %}
+
+    <!-- ================================================ -->
+    <!-- Logout Button -->
+    <!-- ================================================ -->
+
+    <button
+        type="submit"
+        class="btn btn-danger btn-sm mt-3"
+    >
+
+        Logout
+
+    </button>
+
+</form>
         </div>
         
 
