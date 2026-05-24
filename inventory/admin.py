@@ -1,23 +1,19 @@
+# =====================================================
+# Django Admin Import
+# =====================================================
 
 from django.contrib import admin
+
+
+# =====================================================
+# Model Import
+# =====================================================
 
 from .models import Product
 
 
 # =====================================================
-# Product Admin
+# Register Model
 # =====================================================
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
 
-    # List page columns
-    list_display = (
-        'name',
-        'price',
-        'branch',
-    )
-
-    # Right-side filters
-    list_filter = (
-        'branch',
-    )
+admin.site.register(Product)

@@ -1,50 +1,42 @@
 # =====================================================
-# Django Import
+# Django Template Import
 # =====================================================
 
-from django.shortcuts import render
-
-
-# =====================================================
-# Decorator Import
-# =====================================================
-
-from .decorators import module_permission_required
+from django import template
 
 
 # =====================================================
-# Home Page View
+# Permission Function Import
 # =====================================================
 
-def home(request):
-
-    return render(
-
-        request,
-
-        'home.html'
-
-    )
+from core.permissions import can_user_access_module
 
 
 # =====================================================
-# Employee List View
+# Template Register
 # =====================================================
 
-@module_permission_required(
+register = template.Library()
 
-    'employee',
 
-    'view'
+# =====================================================
+# Template Permission Tag
+# =====================================================
 
-)
+@register.simple_tag
 
-def employee_list(request):
+def has_module_permission(
 
-    return render(
+    user,
+    module_code,
+    action='view'
 
-        request,
+):
 
-        'employee/list.html'
+    return can_user_access_module(
+
+        user,
+        module_code,
+        action
 
     )

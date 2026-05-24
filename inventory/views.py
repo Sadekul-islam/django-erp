@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
 
-
 # =====================================================
 # Local Imports
 # =====================================================
@@ -15,7 +14,6 @@ from django.http import HttpResponseForbidden
 from .models import Product
 
 from permissionsystem.utils import can_user_access_module
-
 
 
 # =====================================================
@@ -66,11 +64,7 @@ def product_list(request):
     # Product queryset
     # =================================================
 
-    products = Product.objects.filter(
-
-        is_deleted=False
-
-    )
+    products = Product.objects.all()
 
 
 

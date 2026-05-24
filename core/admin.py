@@ -1,10 +1,29 @@
+# =====================================================
+# Django Admin Import
+# =====================================================
+
 from django.contrib import admin
-from .models import Branch, AcademicSession
 
 
-# Register Branch model
-admin.site.register(Branch)
+# =====================================================
+# Model Import
+# =====================================================
+
+from .models import (
+    BaseModel,
+    Branch,
+    Role,
+    Module,
+    RolePermission
+)
 
 
-# Register Academic Session model
-admin.site.register(AcademicSession)
+# =====================================================
+# Register Models
+# =====================================================
+
+admin.site.register(Role)
+
+admin.site.register(Module)
+
+admin.site.register(RolePermission)

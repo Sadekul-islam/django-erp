@@ -1,50 +1,72 @@
+# =====================================================
+# Django Import
+# =====================================================
+
 from django.db import models
 
-# BaseModel import
-from core.models import BaseModel
 
-# Branch model import
-from core.models import Branch
+# =====================================================
+# Core Model Import
+# =====================================================
+
+from core.models import BaseModel
 
 
 # =====================================================
 # Product Model
 # =====================================================
+
 class Product(BaseModel):
 
-    # Product name
+    # =================================================
+    # Product Name
+    # =================================================
+
     name = models.CharField(
-        max_length=255
+
+        max_length=200
+
     )
 
-    # Product price
+    # =================================================
+    # Product SKU
+    # =================================================
+
+    sku = models.CharField(
+
+        max_length=100,
+
+        unique=True
+
+    )
+
+    # =================================================
+    # Product Price
+    # =================================================
+
     price = models.DecimalField(
+
         max_digits=10,
-        decimal_places=2
+
+        decimal_places=2,
+
+        default=0
+
     )
 
     # =================================================
-    # Branch Isolation Field
-    # -------------------------------------------------
-    # কোন branch এর product
+    # Product Quantity
     # =================================================
+
+    quantity = models.PositiveIntegerField(
+
+        default=0
+
+    )
+
     # =================================================
-# Branch Isolation Field
-# -------------------------------------------------
-# Temporarily NULL allowed for safe migration
-# =================================================
-    branch = models.ForeignKey(
-
-    Branch,
-
-    on_delete=models.CASCADE,
-
-    related_name='products',
-
-    # Existing old data এর জন্য
-    null=True,
-    blank=True
-)
+    # Admin Display
+    # =================================================
 
     def __str__(self):
 
